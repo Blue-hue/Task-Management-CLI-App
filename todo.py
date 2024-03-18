@@ -20,7 +20,7 @@ for key, value in app_config.items():
     setattr(app, key, value)
 
 @app.command(short_help='Add an item')
-def add(task: str, category: str):
+def add(task: str, category: str = typer.Argument('Misc')):
     """
     Add a task to the todo list.
 
@@ -31,7 +31,7 @@ def add(task: str, category: str):
     Example usage:\n
         python todo.py add "Complete assignment" "School"
     """
-    typer.echo(f"adding {task}, category: {category} = 'Misc'")
+    typer.echo(f"adding {task}, category: {category}")
     todo = Todo(task, category)
     insert_todo(todo)
     show()

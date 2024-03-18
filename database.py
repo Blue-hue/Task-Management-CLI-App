@@ -18,7 +18,6 @@ def create_table():
 
 create_table()
 
-
 def insert_todo(todo: Todo):
     c.execute('select count(*) FROM todos')
     count = c.fetchone()[0]
@@ -28,7 +27,6 @@ def insert_todo(todo: Todo):
         {'task': todo.task, 'category': todo.category, 'date_added': todo.date_added,
          'date_completed': todo.date_completed, 'status': todo.status, 'position': todo.position })
 
-
 def get_all_todos() -> List[Todo]:
     c.execute('select * from todos')
     results = c.fetchall()
@@ -36,7 +34,6 @@ def get_all_todos() -> List[Todo]:
     for result in results:
         todos.append(Todo(*result))
     return todos
-
 
 def delete_todo(position):
     c.execute('select count(*) from todos')
@@ -47,13 +44,11 @@ def delete_todo(position):
         for pos in range(position+1, count):
             change_position(pos, pos-1, False)
 
-
 def change_position(old_position: int, new_position: int, commit=True):
     c.execute('UPDATE todos SET position = :position_new WHERE position = :position_old',
                 {'position_old': old_position, 'position_new': new_position})
     if commit:
         conn.commit()
-
 
 def update_todo(position: int, task: str, category: str):
     with conn:
@@ -66,7 +61,6 @@ def update_todo(position: int, task: str, category: str):
         elif category is not None:
             c.execute('UPDATE todos SET category = :category WHERE position = :position',
                       {'position': position, 'category': category})
-
 
 def complete_todo(position: int):
     with conn:
